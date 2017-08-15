@@ -1,0 +1,50 @@
+/* ###################################### FRONT-PAGE */
+
+section.welcome-screen {
+	height: 450px;
+	position: relative;
+	
+	background-repeat:no-repeat;
+	background-size:cover;
+	background-position: center center;
+	margin-top: 15px;
+	margin-bottom: 0;
+
+	#navigation-mobile {
+		position: absolute;
+		top: 0;
+		width: 100%;
+	}
+}
+
+#main-container {
+	margin-top: 105px;
+}
+
+.admin-bar section.welcome-screen #navigation-alfa {
+	top: 32px;
+}
+
+.beta-sticked {
+	position: fixed !important;
+	bottom: auto !important;
+}
+
+
+@media screen and (max-width: 767px) {
+	#main-container {
+		margin-top: 0;
+	}
+	.secondary-nav-pattern {
+		display: none;
+	}
+	.navbar-collapse {
+		overflow-y: visible !important;
+	}
+
+	.mobile-fix {
+		padding-left: 0 !important;
+		padding-right: 0 !important;
+	}
+	
+}
