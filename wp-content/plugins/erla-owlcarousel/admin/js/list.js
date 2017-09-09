@@ -1,197 +1,206 @@
-(function() {
-		var List = function(backendID) {
-			this.backendSelector = document.getElementById(backendID);
+"use strict";
+
+jQuery( document ).ready( function() {
+
+		// create wp.media object
+		var frame = wp.media({
+		 	title: 		'Select or upload an icon',
+			button: 	{ text: 'Use this media' },
+			multiple: 	false 
+		});
+
+		frame.on('select', function() {
+			// add newly selected image to list
+			var	attachment = frame.state().get('selection').first().toJSON();
+			
+			frame.triggeredInstance.push(attachment);
+			frame.triggeredInstance.refresh();
+		});
+
+		var openMediaUploader = function(event) {
+			event.preventDefault();
+			frame.open();
+		}
+
+		// ########################################33
+
+		var List = function(argID) {
+			this.id = argID;
 			this.list = [];
-			
-			var items;
-			if (this.backendSelector.value) {
-				items = JSON.parse(decodeURIComponent(this.backendSelector.value));
-			} else {
-				items = [];
+
+			// ****************************
+			// ## button events
+			//
+			// launch on init and on every widget update
+			// ****************************
+			this.attachEvents = function() {
+				var buttonAddNew = document.querySelector('#' + this.id + ' .owl-addnew');
+
+				buttonAddNew.addEventListener(
+					"click", function(event) {
+						frame.triggeredInstance = this;
+						openMediaUploader(event);
+					}.bind(this));
 			}
 			
-			for (var i=0; i < items.length; i++) {
-				this.list.push(items[i]);
-			}
-
-			this.push = function(line) {
-				this.list.push(line);
-			}
-
-			this.insert = function(index, line) {
-				var insertedElement = this.list.splice(index, 0, line);
-				this.draw();
-				this.encode();
-			}
-
-			this.moveUp = function(e) {
-
-				var item;
-				if (e.target.localName == "i") {
-						item = e.target.parentNode.parentNode.dataset.row;
-				} else {
-					item = e.target.parentNode.dataset.row;
+			// ****************************
+			// ## constructor
+			//
+			// launch on init only
+			// ****************************
+			this.construct = function() {
+				var inputHidden = document.querySelector('#widget-' + this.id + '-image');
+				if (inputHidden.value) {
+					this.list = JSON.parse(decodeURIComponent(inputHidden.value));
+					console.log(this.list)
 				}
-				if (item == 0) return
-
-				var removedElement = this.list.splice(item, 1);
-				this.insert(parseInt(item)-1, removedElement[0]);
+				this.attachEvents()
 			}
 
-			this.moveDown = function(e) {
-				var item;
-				if (e.target.localName == "i") {
-						item = e.target.parentNode.parentNode.dataset.row;
-				} else {
-					item = e.target.parentNode.dataset.row;
+			this.push = function(attachment) {
+				var record = {
+					image: { wpID: "", url: "", alt: "" },
+					desc: ""
 				}
-				if (item == this.list.length-1) { return; }
-
-				var removedElement = this.list.splice(item, 1);
-				this.insert(parseInt(item)+1, removedElement[0]);
+				record.image.wpID = attachment.id;
+				record.image.url = attachment.url;
+				record.image.alt = attachment.alt;
+				record.desc = "";
+				this.list.push(record);
 			}
 
-			this.delete = function(e) {
-					var item;
-					if (e.target.localName == "i") {
-						item = e.target.parentNode.parentNode.dataset.row;
-					} else {
-						item = e.target.parentNode.dataset.row;
-					}
-				var removedElement = this.list.splice(item, 1);
-				this.draw();
-				this.encode();
+			this.frontendEventsKeyPress = function(element) {
+					element.addEventListener("keyup", function(event) {
+						var which = event.srcElement.dataset.related;
+
+						this.list[which].desc = event.srcElement.value;
+						this.updateBackend();
+					}.bind(this))
 			}
 
-			// this.updateTitle = function(e) {
-			// 	var item = e.target.parentNode.dataset.row;
-			// 	this.list[item].title = e.target.value;
-			// 	this.encode();
-			// }
+			this.frontendEventsBtnRemove = function(element) {
+					element.addEventListener("click", function(event) {
+						var which = event.srcElement.dataset.related;
 
-			// this.updateDist = function(e) {
-			// 	var item = e.target.parentNode.dataset.row;
-			// 	this.list[item].dist = e.target.value;
-			// 	this.encode();
-			// }
+						this.list.splice(which, 1);
+						// this.list[which].desc = event.srcElement.value;
+						this.refresh();
+					}.bind(this))
+			}
 
-			// this.updateIcon = function(e) {
-			// 	var item = e.target.parentNode.dataset.row;
-			// 	this.list[item].icon = e.target.value;
-			// 	this.encode();
-			// }
-
-			// this.updateBody = function(e) {
-			// 	var item = e.target.parentNode.dataset.row;
-			// 	this.list[item].body = e.target.value;
-			// 	this.encode();
-			// }
-
-
-			this.encode = function() {
-
+			this.updateBackend = function() {
+				// update backend connector
 				var encoded = encodeURIComponent(JSON.stringify(this.list))
-				this.backendSelector.value = encoded;
-			}	
+				var inputHidden = document.querySelector('#widget-' + this.id + '-image');
+				inputHidden.value = encoded;
+			}
 
+			this.refresh = function() {
+				
+				this.updateBackend();
+
+				// frontend
+
+				
+
+				// remove children
+				var node = document.querySelector('#' + this.id + ' .eoc-slides');
+
+				while (node.firstChild) {
+					node.removeChild(node.firstChild);
+				}
+
+				if (!this.list.length) return;
+
+				// draw children
+
+				for (var i=0; i<this.list.length; i++) {
+					// console.log(this.list[i].image.url)
+
+					var div = document.createElement("div");
+					div.className = "line";
+
+					var elm = document.createElement("img");
+					elm.src = this.list[i].image.url;
+					
+					var input = document.createElement("input");
+					input.className = "widefat";
+					input.type = "text";
+					input.value = this.list[i].desc;
+					input.placeholder = "Tutaj wpisz tekst";
+					input.dataset.related = i;
+					this.frontendEventsKeyPress(input);
+
+					var btnClose = document.createElement("input");
+					btnClose.type = "button";
+					btnClose.value = "Usuń";
+					btnClose.className = "button button-secondary";
+					btnClose.dataset.related = i;
+					this.frontendEventsBtnRemove(btnClose);
+
+
+					div.appendChild(elm);
+					div.appendChild(input);
+					div.appendChild(btnClose);
+
+					node.appendChild(div);
+				}
+			}
+
+			this.construct();
+			this.refresh();
 	}
-
-
 	
+	var instances = [];
+	const instancesSelector = document.querySelectorAll(".erla-owlcarousel-form")
+	const widgetID = "erla-owlcarousel";
 
-	var myList = new List("backend-map-pointers");
-
-	// TERMS OF STAY
-
-	Terms.prototype.draw = function() {
-		var itemCounter=1;
-		var wrapper = document.getElementById(this.listElement);
-		// remove children
-		var first = wrapper.firstChild
-		while (first) {
-			wrapper.removeChild(first);
-			first = wrapper.firstChild;
-		}
-
-		// create new structure
-		for (var i=0; i<this.list.length; i++) {
-			var record = document.createElement('div');
-				record.className = "record";
-				record.dataset.row = itemCounter-1;
-
-			var id = "term-" + itemCounter;
-
-			var input = document.createElement('textarea');
-				input.name = id;
-				input.id = id;
-				input.rows = 2;
-				input.className = "form-control";
-				input.style = "width: 70%";
-				input.value = this.list[i].body;
-				input.addEventListener("keyup", this.updateBody.bind(this));
-
-
-			var buttonDel = document.createElement('button')
-				buttonDel.type = "button"
-				buttonDel.className = "btn btn-danger"
-				buttonDel.innerHTML = '<i class="fa fa-times" aria-hidden="true"></i>';
-				buttonDel.addEventListener("click", this.delete.bind(this));
-
-				var buttonUp = document.createElement('button')
-				buttonUp.type = "button"
-				buttonUp.className = "btn btn-info"
-				buttonUp.innerHTML = '<i class="fa fa-arrow-circle-up" aria-hidden="true"></i>';
-				buttonUp.addEventListener("click", this.moveUp.bind(this));
-
-				var buttonDown = document.createElement('button')
-				buttonDown.type = "button"
-				buttonDown.className = "btn btn-info"
-				buttonDown.innerHTML = '<i class="fa fa-arrow-circle-down" aria-hidden="true"></i>';
-				buttonDown.addEventListener("click", this.moveDown.bind(this));
-
-			record.appendChild(input);
-			record.appendChild(buttonUp);
-			record.appendChild(buttonDown);
-			record.appendChild(buttonDel);
-
-			wrapper.appendChild(record);
-			itemCounter++;
-		}
+	for (var i=0; i<instancesSelector.length; i++) {
+		instances.push(new List(instancesSelector[i].id));
 	}
 
-	var buttonNewTermOfStay = document.getElementById("add-new-term").addEventListener("click", function() {
-		var newTxt;
-		newTxt = document.getElementById("new_term").value;
-		stayTerms.insert(0, {"body": newTxt});
-		document.getElementById("new_term").value = "";
 
-	});
+	// ****************************
+	// ## widget-added
+	//
+	// add new widget and attach events
+	// ****************************
 
-	var buttonNewTermOfStay = document.getElementById("add-new-reservation-term").addEventListener("click", function() {
-		var newTxt;
-		newTxt = document.getElementById("new_reservation_term").value;
-		reservationTerms.insert(0, {"body": newTxt});
-		document.getElementById("new_reservation_term").value = "";
-
-	});
-
-	stayTerms.draw();
-	reservationTerms.draw();
-
-
-	myList.draw();
-	// add new element
-
-	var button = document.getElementById("add-new-record").addEventListener("click", function() {
-		var newTitle, newDist, newIcon;
-		newTitle = document.getElementById("pointer-title-new").value;
-		newDist = document.getElementById("pointer-dist-new").value;
-		newIcon = document.getElementById("pointer-icon-new").value;
-
-		myList.insert(0, {"title": newTitle, "dist": newDist, "icon": newIcon})
-
-		document.getElementById("pointer-title-new").value = "";
-		document.getElementById("pointer-dist-new").value = "";
-		document.getElementById("pointer-icon-new").value = "fa-street-view";
+	jQuery(document).on('widget-added', function(event, widget) {	
+		var domID = widget[0].id;
+		if (!domID.includes(widgetID)) {
+			return; // quit if event is related to other widget
+		}
+		
+		var pos = domID.indexOf(widgetID);
+		instances.push(new List(domID.slice(pos)));
 	})
-}) ()
+
+	// ****************************
+	// ## widget-updated
+	//
+	// add new widget and attach events
+	// ****************************
+
+	jQuery(document).on('widget-updated', function(event) {
+		var presentNode = event.delegateTarget.activeElement;  // now points at element which launched an event (save button)
+
+		do {
+			presentNode = presentNode.parentNode;
+			if (presentNode.id == "widgets-right") return // quit if gone too far
+		} while(!presentNode.id.includes(widgetID)) 
+
+
+		for (var i=0; i<instances.length; i++) {
+			if (presentNode.id.includes(instances[i].id)) {
+				instances[i].attachEvents();
+				instances[i].refresh();
+			}
+		}
+
+	})
+
+
+
+
+});

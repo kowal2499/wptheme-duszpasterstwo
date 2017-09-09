@@ -10,6 +10,8 @@ kolory
 
 @import "navbar";
 @import "front-page";
+@import "widgets";
+@import "current-issues";
 
 html, body {
         height: 100%;
@@ -67,7 +69,8 @@ article h1 {
 	text-align: center;
 	color: #f76a0c;
 	display: block;
-	margin-bottom: 20px;
+	margin-top: 30px;
+	margin-bottom: 30px;
 	letter-spacing: 6px;
 	font-weight: 200;
 	background-color: #efefd0;

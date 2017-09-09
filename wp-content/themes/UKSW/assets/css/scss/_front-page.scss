@@ -1,19 +1,45 @@
 /* ###################################### FRONT-PAGE */
 
 section.welcome-screen {
-	height: 450px;
 	position: relative;
-	
-	background-repeat:no-repeat;
-	background-size:cover;
-	background-position: center center;
+
 	margin-top: 15px;
 	margin-bottom: 0;
+	min-height: 300px;
 
 	#navigation-mobile {
 		position: absolute;
 		top: 0;
 		width: 100%;
+	}
+
+	.logo {
+		position: absolute;
+		top: 30px;
+		left: 0;
+		z-index: 100;
+		img {
+			display: block;
+		}
+	}
+
+	.sentence {
+		position: absolute;
+		bottom: 0;
+		right: 0;
+		z-index: 100;
+		width: 100%;
+
+		text-align: right;
+		padding: 20px;
+		padding-left: 10%;
+
+		color: #fff;
+		font-size: 18px;
+		font-weight: 200;
+		font-style: italic;
+
+		background: rgba(249, 106, 14, 0.75)
 	}
 }
 
@@ -30,6 +56,11 @@ section.welcome-screen {
 	bottom: auto !important;
 }
 
+@media screen and (max-width: 991px) {
+	section.welcome-screen {
+		padding-top: 15px;
+	}
+}
 
 @media screen and (max-width: 767px) {
 	#main-container {
@@ -46,5 +77,27 @@ section.welcome-screen {
 		padding-left: 0 !important;
 		padding-right: 0 !important;
 	}
-	
 }
+
+@media screen and (max-width: 600px) {
+	section.welcome-screen .logo {
+		width: 100px;
+	}
+	section.welcome-screen .sentence {
+		font-size: 14px;
+	}
+}
+
+@media screen and (max-width: 425px) {
+	section.welcome-screen .sentence {
+		display: none;
+	}
+}
+
+@media screen and (max-width: 320px) {
+	section.welcome-screen .logo {
+		top: 25px;
+		width: 70px;
+	}
+}
+

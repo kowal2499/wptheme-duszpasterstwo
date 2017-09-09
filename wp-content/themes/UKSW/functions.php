@@ -115,6 +115,8 @@ function uksw_szablon_scripts() {
 	 // wp_enqueue_script( 'responsive-menu.js', get_template_directory_uri() . '/assets/js/responsive-menu.js', array ( 'jquery' ) );
 	wp_enqueue_script( 'rkfacebook', get_template_directory_uri() . '/assets/js/facebook.js');
 
+	wp_enqueue_script( 'rkmain', get_template_directory_uri() . '/assets/js/main.js');
+
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
 	}

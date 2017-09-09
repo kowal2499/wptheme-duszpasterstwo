@@ -22,9 +22,11 @@
 
 			<li>
 				<a href='<?php the_permalink(); ?>'>
-					<?php the_title(); ?>
-					<?php the_post_thumbnail('medium'); ?>
+					<?php the_post_thumbnail('thumbnail'); ?>
+					<span class="issue-title"><?php the_title(); ?></span>
+					
 				</a>
+
 			</li>
 <?php
 	

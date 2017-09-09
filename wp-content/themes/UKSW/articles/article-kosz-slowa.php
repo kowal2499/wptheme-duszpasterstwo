@@ -1,9 +1,3 @@
-
-
-				<div class="content">
-					<p><?php echo get_sentence(); ?></p>
-				</div>
-
 <?php
 	function get_sentence() {
 
@@ -25,9 +19,9 @@
 		fclose($myFile);
 
 		$choice = rand(0, count($bucket)-1);
-
 		return $bucket[$choice];
-
 	}
+
+	echo get_sentence();
 ?>
 		

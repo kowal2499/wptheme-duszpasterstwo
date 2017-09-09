@@ -10,7 +10,7 @@
 get_header(); ?>
 	
 
-		<div class="container" id="page_single_gallery">
+		<div id="page_single_gallery">
 			<div class="row extra-margin">
 
 				<div class="col-md-8 backstage-pattern" >
@@ -24,13 +24,24 @@ get_header(); ?>
 								</ol>
 
 
+								<div class="simple-lightbox">
 								<?php while ( have_posts() ) : the_post(); ?>
 									<h1><?php the_title(); ?></h1>
 									<p class="lead text-center"><?php echo get_post_meta(get_the_ID(), 'czas_wydarzenia', true); ?></p>
-									<p><?php the_content(); ?></p>
+									<?php the_content(); ?>
 								<?php endwhile; ?>
+								</div>
 								<hr>
 								<div class="row gallery-buttons">
+
+										<?php if (!empty(get_next_post())) : ?>
+											<div class="button-prev">
+												<a href="<?php echo esc_url(get_permalink(get_next_post()->ID)); ?>" class="btn btn-default">
+												<div class="navigation-desc"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> następna galeria</div>
+												<div class="navigation-title"><?php echo get_next_post()->post_title; ?></div>
+												</a>
+											</div>
+										<?php endif; ?>
 
 										<?php if (!empty(get_previous_post())) : ?>
 											
@@ -43,14 +54,7 @@ get_header(); ?>
 										<?php endif; ?>
 									
 										
-										<?php if (!empty(get_next_post())) : ?>
-											<div class="button-prev">
-												<a href="<?php echo esc_url(get_permalink(get_next_post()->ID)); ?>" class="btn btn-default">
-												<div class="navigation-desc"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> następna galeria</div>
-												<div class="navigation-title"><?php echo get_next_post()->post_title; ?></div>
-												</a>
-											</div>
-										<?php endif; ?>
+										
 
 										<div style="clear: both;"></div>
 										
@@ -70,7 +74,8 @@ get_header(); ?>
 				<?php get_sidebar(); ?>
 
 			</div><!-- row -->
-		</div><!-- container -->
+		</div>
+	</div><!-- container -->
 
 
 <?php get_footer(); ?>

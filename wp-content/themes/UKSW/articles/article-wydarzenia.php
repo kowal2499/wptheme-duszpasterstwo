@@ -15,6 +15,7 @@
 	$jump_ID = 0;
 	
 	if ( $loop->have_posts() ) :
+		$i = 0;
 		while ( $loop->have_posts() ): $loop->the_post();
 			$i += 1;
 			

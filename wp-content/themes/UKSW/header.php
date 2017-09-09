@@ -32,30 +32,21 @@
 
 <div id="page" class="site">
 	
+	<div id="content" class="site-content">
 
-	<?php
-
-		if ( !is_front_page() ) {
-	?>			
-
-	<header id="masthead" class="site-header" role="banner">
-			
-		
 		<div class="container-fluid">
 			<div class="row">
-				<div class="nav-wrapper">
-					<?php include "template-parts/content-navigation-mobile.php"; ?>
-	        <?php include "template-parts/content-navigation.php"; ?>
-	        <?php include "template-parts/content-navigation-secondary.php"; ?>
+				<div class="col-md-12 mobile-fix">
+				<?php include "template-parts/content-navigation-mobile.php"; ?>
+				<?php include "template-parts/content-navigation.php"; ?>
 				</div>
 			</div>
 		</div>
 
-
-	</header><!-- #masthead -->
-
-	<?php
-			}
-	?>
-
-	<div id="content" class="site-content">
+		<div class="container" id="main-container">
+			
+			<div class="row margin-fix">
+				<div class="col-md-12 secondary-nav-pattern">
+					<?php include "template-parts/content-navigation-secondary.php"; ?>
+				</div>
+			</div>

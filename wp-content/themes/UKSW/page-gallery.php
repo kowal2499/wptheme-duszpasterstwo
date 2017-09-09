@@ -4,10 +4,7 @@
 */
 get_header(); ?>
 
-
-
-		<div class="container" id="page_gallery">
-			<div class="row extra-margin">
+			<div class="row">
 
 				<div class="col-md-8 backstage-pattern">
 					<section>

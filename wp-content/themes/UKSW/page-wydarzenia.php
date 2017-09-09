@@ -6,7 +6,6 @@ get_header(); ?>
 
 	<div class="single-page">
 	
-		<div class="container">
 			<div class="row extra-margin">
 
 				<div class="col-md-8 backstage-pattern" id="page-all-events">

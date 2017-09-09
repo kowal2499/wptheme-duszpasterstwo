@@ -9,8 +9,7 @@
 
 get_header(); ?>
 	
-		<div class="container">
-			<div class="row extra-margin">
+			<div class="row">
 
 				<div class="col-md-8 backstage-pattern">
 					<section>
