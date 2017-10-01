@@ -43,6 +43,65 @@ section.welcome-screen {
 	}
 }
 
+section article#wspolnoty2 {
+	.wspolnota {
+		margin-top: 10px;
+		position: relative;
+		min-height: 250px; 
+		background-image: url("http://www.img.erla.pl/da/podroz-do-betlejem2.jpg");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: right top;
+	  
+		.left {
+		  left: 10px;
+		}
+		
+		.right {
+		  right: 10px;
+		}
+		
+		.desc {
+		  position: absolute;
+		  bottom: 0px;
+		  display: inline-block;
+		  width: 60%;
+		  text-align: center;
+		  padding: 10px;
+		  
+		  img {
+			display: inline-block;
+			width: 80px;
+			transition: all 0.2s;
+		  }
+		  
+		  h2 {
+			margin-top: 10px;
+			font-variant: small-caps;
+			color: #004E89;
+		  }
+		  .lead {
+			color: #888;
+			font-size: 20px;
+			line-height: 25px;
+		  }
+		}
+		
+		a:hover {
+		  text-decoration: none;
+		  .h2 {
+		  }
+		  img {
+			transform: scale(1.1);
+			box-shadow: 0px 0px 5px 3px #F76A0C;
+		  }
+		}
+		&:last-child {
+			margin-bottom: 30px;
+		}
+	}
+}
+
 #main-container {
 	margin-top: 105px;
 }
@@ -76,6 +135,28 @@ section.welcome-screen {
 	.mobile-fix {
 		padding-left: 0 !important;
 		padding-right: 0 !important;
+	}
+
+	section article#wspolnoty2 {
+		.wspolnota {
+			.desc {
+				width: 100%;
+				.lead {
+					line-height: 22px;
+				}
+			}
+			.right {
+				right: 0px;
+			}
+
+			.left {
+				left: 0px;
+			}
+
+			
+		}
+
+
 	}
 }
 

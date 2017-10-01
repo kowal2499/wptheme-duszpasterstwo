@@ -14,9 +14,9 @@ get_header(); ?>
 					</section>
 
 					<section>
-						<article id="wspolnoty">
+						<article id="wspolnoty2">
 							<h1>Wspólnoty</h1>
-							<?php include("articles/article-wspolnoty.php"); ?>
+							<?php include("articles/article-wspolnoty2.php"); ?>
 						</article>
 
 						<article id="diakonie">

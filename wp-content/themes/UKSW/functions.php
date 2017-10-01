@@ -104,7 +104,7 @@ add_action( 'widgets_init', 'uksw_szablon_widgets_init' );
  */
 function uksw_szablon_scripts() {
 	wp_enqueue_style( 'uksw-szablon-style', get_stylesheet_uri() );
-	wp_enqueue_style( 'mystyle', get_template_directory_uri() . '/assets/css/mystyle.css', $ver = '1.1' );
+	wp_enqueue_style( 'mystyle', get_template_directory_uri() . '/assets/css/mystyle.css', $ver = '1.2' );
 	wp_enqueue_style( 'bootstrap', get_template_directory_uri() . '/assets/css/bootstrap.min.css' );
 
 	wp_enqueue_script( 'uksw-szablon-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20151215', true );
